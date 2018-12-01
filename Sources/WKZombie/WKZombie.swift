@@ -362,6 +362,28 @@ public extension WKZombie {
         }
     }
     
+        /**
+     The returned WKZombie Action will remove an attribute on the specified HTMLElement.
+     
+     - parameter key:   A Attribute Name.
+     - parameter element: A HTML element.
+     
+     - returns: The WKZombie Action.
+     */
+    public func removeAttribute<T: HTMLElement>(_ key: String) -> (_ element: T) -> Action<HTMLPage> {
+        return { (element: T) -> Action<HTMLPage> in
+            return Action() { [unowned self] completion in
+                if let script = element.createRemoveAttributeCommand(key) {
+                    self._renderer.executeScript("\(script) \(Renderer.scrapingCommand.terminate())", completionHandler: { result, response, error in
+                        completion(decodeResult(nil)(result as? Data))
+                    })
+                } else {
+                    completion(Result.error(.networkRequestFailure))
+                }
+            }
+        }
+    }
+    
 }
 
 //========================================
@@ -448,7 +470,7 @@ public extension WKZombie {
      */
     public func executeAndRedirect<T: Page>(_ script: JavaScript) -> Action<T> {
         return Action() { [unowned self] completion in
-            self._renderer.executeScript(script, willLoadPage: true, postAction: PostAction.none, completionHandler: { result, response, error in
+            self._renderer.executeScript(script, willLoadPage: true, postAction: PostAction.wait(10.0), completionHandler: { result, response, error in
                 let data = self._handleResponse(result as? Data, response: response, error: error)
                 completion(data >>> decodeResult(response?.url))
             })
