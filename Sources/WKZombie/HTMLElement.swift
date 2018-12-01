@@ -37,4 +37,11 @@ public class HTMLElement : HTMLParserElement {
         }
         return nil
     }
+    
+    internal func createRemoveAttributeCommand(_ key : String) -> String? {
+        if let query = XPathQuery {
+            return "getElementByXpath(\"\(query)\").removeAttribute(\"\(key)\");"
+        }
+        return nil
+    }
 }
