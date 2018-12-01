@@ -155,7 +155,7 @@ public func setAttribute<T: HTMLElement>(_ key: String, value: String?) -> (_ el
  - seealso: _removeAttribute()_ function in _WKZombie_ class for more info.
  */
 public func removeAttribute<T: HTMLElement>(_ key: String) -> (_ element: T) -> Action<HTMLPage> {
-    return WKZombie.sharedInstance.setAttribute(key)
+    return WKZombie.sharedInstance.removeAttribute(key)
 }
 
 
