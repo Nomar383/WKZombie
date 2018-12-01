@@ -149,6 +149,15 @@ public func setAttribute<T: HTMLElement>(_ key: String, value: String?) -> (_ el
     return WKZombie.sharedInstance.setAttribute(key, value: value)
 }
 
+/**
+ The returned WKZombie Action will remove an attribute on the specified HTMLElement
+ __using the shared WKZombie instance__.
+ - seealso: _removeAttribute()_ function in _WKZombie_ class for more info.
+ */
+public func removeAttribute<T: HTMLElement>(_ key: String) -> (_ element: T) -> Action<HTMLPage> {
+    return WKZombie.sharedInstance.setAttribute(key)
+}
+
 
 //========================================
 // MARK: Find Methods
